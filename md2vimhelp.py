@@ -58,7 +58,7 @@ def render(blocks: list[tuple[str, list[str]]]) -> str:
             out = textwrap.fill(" ".join(lines), width=WRAP_WIDTH).splitlines()
 
         next_is_code = i + 1 < len(blocks) and blocks[i + 1][0] == "code"
-        if next_is_code and out:
+        if next_is_code and kind != "code" and out:
             out[-1] += " >"
 
         rendered.append(out)

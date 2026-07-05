@@ -1,0 +1,17 @@
+Go's standard library has a `math/bits` package with useful bit manipulation functions. Here are the commonly used ones:
+
+## Counting functions
+
+```go
+bits.OnesCount(x uint)       // count of 1 bits (popcount)
+bits.OnesCount8(x uint8)
+bits.OnesCount16(x uint16)
+bits.OnesCount32(x uint32)
+bits.OnesCount64(x uint64)
+```
+
+```go
+bits.LeadingZeros(x uint)    // number of leading zero bits
+bits.LeadingZeros32(x uint32)
+bits.LeadingZeros64(x uint64)
+```
