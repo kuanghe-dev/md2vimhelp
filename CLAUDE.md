@@ -16,7 +16,9 @@ logic live in `md2vimhelp.py`.
   single space and re-wrapped with `textwrap.fill(width=90)`.
 - Whichever block (header or paragraph) immediately precedes a code block gets `" >"`
   appended to the *last* line of its rendered output — the Vim help convention marking
-  the start of a preformatted region.
+  the start of a preformatted region. This only applies when the preceding block is a
+  header or paragraph — a code block immediately followed by another code block does
+  *not* get `" >"` appended (see `example/input2.md` / `example/output2_correct.txt`).
 - Blocks are joined with exactly one blank line between them in the output, regardless
   of how many blank lines separated them in the source (blank-line runs collapse to one).
 - The file always ends with a blank line followed by a 90-dash divider line. No trailing

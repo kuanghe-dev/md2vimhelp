@@ -24,7 +24,8 @@ overwritten. Passing the output path explicitly always overwrites without asking
   fences are removed.
 - Regular paragraphs are word-wrapped to a maximum of 90 characters per line.
 - Whichever paragraph or header immediately precedes a code block gets `" >"` appended
-  to its last line (the Vim help convention for introducing a preformatted block).
+  to its last line (the Vim help convention for introducing a preformatted block). A
+  code block immediately followed by another code block does not get the marker.
 - The file ends with a divider line of 90 dashes.
 
 ## Example
