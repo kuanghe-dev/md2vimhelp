@@ -94,6 +94,7 @@ def main() -> None:
     text = input_path.read_text(encoding="utf-8")
     blocks = parse_blocks(text)
     output_path.write_text(render(blocks), encoding="utf-8")
+    print(f"Finished writing output file: {output_path}")
 
 
 if __name__ == "__main__":
