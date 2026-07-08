@@ -1,3 +1,5 @@
+# `time` package in Go
+
 Here are some commonly used functions and types from Go's `time` package:
 
 ## Getting the current time
