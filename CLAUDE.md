@@ -5,9 +5,15 @@ logic live in `md2vimhelp.py`.
 
 ## Conversion rules implemented
 
-- A line matching `^## (.*)$` is a **header** → rendered as `- {title}`. Only exactly
-  `## ` triggers this — `#`/`###`+ are left as regular paragraph text (per explicit
-  scope decision, not an oversight).
+- A line matching `^# (.*)$` is a first-level **header** → rendered as `{title}~` (the
+  Vim help convention for a highlighted section tag). A line matching `^## (.*)$` is a
+  second-level **header** → rendered as `- {title}`. Only exactly one or two `#`s
+  followed by a space triggers these — `###`+ is left as regular paragraph text (per
+  explicit scope decision, not an oversight). The two patterns don't overlap: `^# `
+  requires a space right after the single `#`, which `## ` never has.
+- All tabs are expanded to 4 literal spaces (`"\t" -> "    "`) before parsing — not
+  column-aligned `str.expandtabs()`, just a straight per-tab substitution. This runs
+  once over the whole input, so it also applies inside fenced code blocks.
 - A line matching `^```` (with or without a trailing language tag) opens a **fenced code
   block**; a line that is exactly ` ``` ` closes it. Interior lines are indented by 4
   spaces (blank interior lines stay blank, not padded with spaces). The fence lines
@@ -42,7 +48,8 @@ lines" parser would incorrectly split one code block into two. `parse_blocks()` 
 runs an explicit two-state machine (`NORMAL` / `IN_CODE`):
 
 - In `NORMAL`, a blank line ends the pending paragraph; a ` ``` ` line switches to
-  `IN_CODE`; a `## ` line closes any pending paragraph and emits a header block directly.
+  `IN_CODE`; a `# ` or `## ` line closes any pending paragraph and emits a header block
+  directly.
 - In `IN_CODE`, every line (including blank ones) is code content until a closing ` ``` `
   fence is seen.
 

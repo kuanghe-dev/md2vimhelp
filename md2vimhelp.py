@@ -5,8 +5,10 @@ import textwrap
 from pathlib import Path
 
 WRAP_WIDTH = 90
+TAB_WIDTH = 4
 DIVIDER = "-" * WRAP_WIDTH
-HEADER_RE = re.compile(r"^## (.*)$")
+HEADER1_RE = re.compile(r"^# (.*)$")
+HEADER2_RE = re.compile(r"^## (.*)$")
 FENCE_RE = re.compile(r"^```")
 BOLD_RE = re.compile(r"\*\*(.+?)\*\*")
 BULLET_RE = re.compile(r"^(-\s+|\d+\.\s+)")
@@ -23,6 +25,7 @@ def wrap_line(line: str) -> list[str]:
 
 
 def parse_blocks(text: str) -> list[tuple[str, list[str]]]:
+    text = text.replace("\t", " " * TAB_WIDTH)
     blocks: list[tuple[str, list[str]]] = []
     paragraph: list[str] = []
     code: list[str] = []
@@ -43,10 +46,14 @@ def parse_blocks(text: str) -> list[tuple[str, list[str]]]:
                 code.append(line)
             continue
 
-        header_match = HEADER_RE.match(line)
-        if header_match:
+        header2_match = HEADER2_RE.match(line)
+        header1_match = HEADER1_RE.match(line)
+        if header2_match:
             flush_paragraph()
-            blocks.append(("header", [strip_bold(header_match.group(1))]))
+            blocks.append(("header2", [strip_bold(header2_match.group(1))]))
+        elif header1_match:
+            flush_paragraph()
+            blocks.append(("header1", [strip_bold(header1_match.group(1))]))
         elif FENCE_RE.match(line):
             flush_paragraph()
             in_code = True
@@ -62,8 +69,10 @@ def parse_blocks(text: str) -> list[tuple[str, list[str]]]:
 def render(blocks: list[tuple[str, list[str]]]) -> str:
     rendered: list[list[str]] = []
     for i, (kind, lines) in enumerate(blocks):
-        if kind == "header":
+        if kind == "header2":
             out = [f"- {lines[0]}"]
+        elif kind == "header1":
+            out = [f"{lines[0]}~"]
         elif kind == "code":
             out = [f"    {line}" if line.strip() else "" for line in lines]
         else:
