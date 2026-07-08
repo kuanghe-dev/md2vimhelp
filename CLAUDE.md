@@ -61,3 +61,17 @@ blank-line split without re-checking that fixture.
 - Two args (`input output`): output is written unconditionally.
 - One arg (`input` only): output path = input path with `.md` → `.txt`. If that path
   already exists, prompt `y/N` on stdin and abort (exit 1) on anything but `y`.
+
+## Dev environment and tests
+
+Dependencies are managed with [uv](https://docs.astral.sh/uv/) (`pyproject.toml` /
+`uv.lock`); `pytest` is the sole dev dependency. Run `uv sync` once to create `.venv`,
+then `uv run pytest` for the suite — no manual venv activation needed.
+
+`tests/test_md2vimhelp.py` is parametrized over the `example{1,2,3}.md` /
+`example{1,2,3}.txt` pairs in `example/`: each test runs `md2vimhelp.py` as a subprocess
+against the `.md` file and asserts the output matches the `.txt` fixture byte-for-byte.
+These `exampleN` fixtures are separate from the older `input*.md` / `output*.txt` files
+in the same directory, which are referenced directly from `README.md` and by name
+elsewhere in this file — don't conflate the two naming schemes or delete one thinking
+it's redundant with the other.

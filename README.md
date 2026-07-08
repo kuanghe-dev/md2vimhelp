@@ -49,3 +49,15 @@ Output (`example/output.txt`):
 ```
 
 See `example/input.md` and `example/output.txt` for a full before/after.
+
+## Development
+
+Dependencies (currently just `pytest`) are managed with [uv](https://docs.astral.sh/uv/).
+
+```sh
+uv sync        # create .venv and install dev dependencies
+uv run pytest  # run the test suite
+```
+
+`uv run` picks up the project's `.venv` automatically, so there's no need to activate it
+by hand.
