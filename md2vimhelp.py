@@ -12,6 +12,7 @@ HEADER2_RE = re.compile(r"^## (.*)$")
 FENCE_RE = re.compile(r"^```")
 BOLD_RE = re.compile(r"\*\*(.+?)\*\*")
 BULLET_RE = re.compile(r"^(-\s+|\d+\.\s+)")
+LEADING_TABS_RE = re.compile(r"^\t+", re.MULTILINE)
 
 
 def strip_bold(line: str) -> str:
@@ -25,7 +26,7 @@ def wrap_line(line: str) -> list[str]:
 
 
 def parse_blocks(text: str) -> list[tuple[str, list[str]]]:
-    text = text.replace("\t", " " * TAB_WIDTH)
+    text = LEADING_TABS_RE.sub(lambda m: " " * TAB_WIDTH * len(m.group()), text)
     blocks: list[tuple[str, list[str]]] = []
     paragraph: list[str] = []
     code: list[str] = []

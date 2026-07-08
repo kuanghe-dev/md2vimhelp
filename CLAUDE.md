@@ -11,9 +11,10 @@ logic live in `md2vimhelp.py`.
   followed by a space triggers these — `###`+ is left as regular paragraph text (per
   explicit scope decision, not an oversight). The two patterns don't overlap: `^# `
   requires a space right after the single `#`, which `## ` never has.
-- All tabs are expanded to 4 literal spaces (`"\t" -> "    "`) before parsing — not
-  column-aligned `str.expandtabs()`, just a straight per-tab substitution. This runs
-  once over the whole input, so it also applies inside fenced code blocks.
+- Leading tabs (at the start of a line) are expanded to 4 literal spaces per tab before
+  parsing — not column-aligned `str.expandtabs()`, just a straight per-tab substitution.
+  Tabs elsewhere in a line are left untouched. This runs once over the whole input, so it
+  also applies inside fenced code blocks.
 - A line matching `^```` (with or without a trailing language tag) opens a **fenced code
   block**; a line that is exactly ` ``` ` closes it. Interior lines are indented by 4
   spaces (blank interior lines stay blank, not padded with spaces). The fence lines
