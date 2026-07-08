@@ -1,0 +1,11 @@
+[project]
+name = "md2vimhelp"
+version = "0.1.0"
+description = "Markdown to Vim help file converter"
+requires-python = ">=3.13"
+dependencies = []
+
+[dependency-groups]
+dev = [
+    "pytest>=9.1.1",
+]
