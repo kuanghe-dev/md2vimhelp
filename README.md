@@ -30,7 +30,7 @@ overwritten. Passing the output path explicitly always overwrites without asking
 
 ## Example
 
-Input (`example/input.md`):
+Input (`example/example1.md`):
 
 ```
 ## Getting the current time
@@ -40,7 +40,7 @@ now := time.Now()
 ​```
 ```
 
-Output (`example/output.txt`):
+Output (`example/example1.txt`):
 
 ```
 - Getting the current time >
@@ -48,7 +48,7 @@ Output (`example/output.txt`):
     now := time.Now()
 ```
 
-See `example/input.md` and `example/output.txt` for a full before/after.
+See `example/example1.md` and `example/example1.txt` for a full before/after.
 
 ## Development
 

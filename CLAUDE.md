@@ -21,7 +21,7 @@ logic live in `md2vimhelp.py`.
   themselves are dropped.
 - Everything else is a **paragraph**: each source line is wrapped independently with
   `textwrap.fill(width=90)` — lines are *not* joined into one flowing block first (see
-  `example/input3.md` / `example/output3.txt`, where the `Key points:` line and each
+  `example/example3.md` / `example/example3.txt`, where the `Key points:` line and each
   following bullet stay on their own wrapped run).
 - A paragraph line starting with a bullet marker (`- ` or `1. `, `2. `, etc.) gets a
   hanging indent on its wrapped continuation lines, aligned to the width of the marker
@@ -34,7 +34,7 @@ logic live in `md2vimhelp.py`.
   appended to the *last* line of its rendered output — the Vim help convention marking
   the start of a preformatted region. This only applies when the preceding block is a
   header or paragraph — a code block immediately followed by another code block does
-  *not* get `" >"` appended (see `example/input2.md` / `example/output2_correct.txt`).
+  *not* get `" >"` appended (see `example/example2.md` / `example/example2.txt`).
 - Blocks are joined with exactly one blank line between them in the output, regardless
   of how many blank lines separated them in the source (blank-line runs collapse to one).
 - The file always ends with a blank line followed by a 90-dash divider line. No trailing
@@ -71,7 +71,6 @@ then `uv run pytest` for the suite — no manual venv activation needed.
 `tests/test_md2vimhelp.py` is parametrized over the `example{1,2,3}.md` /
 `example{1,2,3}.txt` pairs in `example/`: each test runs `md2vimhelp.py` as a subprocess
 against the `.md` file and asserts the output matches the `.txt` fixture byte-for-byte.
-These `exampleN` fixtures are separate from the older `input*.md` / `output*.txt` files
-in the same directory, which are referenced directly from `README.md` and by name
-elsewhere in this file — don't conflate the two naming schemes or delete one thinking
-it's redundant with the other.
+These `exampleN` fixtures are the only files in `example/` — the older `input*.md` /
+`output*.txt` files have been deleted, and `README.md` now points at `example1.md` /
+`example1.txt` for its before/after walkthrough.
