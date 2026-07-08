@@ -12,8 +12,17 @@ logic live in `md2vimhelp.py`.
   block**; a line that is exactly ` ``` ` closes it. Interior lines are indented by 4
   spaces (blank interior lines stay blank, not padded with spaces). The fence lines
   themselves are dropped.
-- Everything else is a **paragraph**: consecutive non-blank lines are joined with a
-  single space and re-wrapped with `textwrap.fill(width=90)`.
+- Everything else is a **paragraph**: each source line is wrapped independently with
+  `textwrap.fill(width=90)` — lines are *not* joined into one flowing block first (see
+  `example/input3.md` / `example/output3.txt`, where the `Key points:` line and each
+  following bullet stay on their own wrapped run).
+- A paragraph line starting with a bullet marker (`- ` or `1. `, `2. `, etc.) gets a
+  hanging indent on its wrapped continuation lines, aligned to the width of the marker
+  (2 spaces for `- `, 3 spaces for `N. `).
+- `**bold**` markers are stripped from header and paragraph text before wrapping (e.g.
+  `**Keyword List**` → `Keyword List`). This does not apply inside fenced code blocks —
+  content there is passed through untouched. Single-asterisk emphasis (`*word*`) is left
+  alone.
 - Whichever block (header or paragraph) immediately precedes a code block gets `" >"`
   appended to the *last* line of its rendered output — the Vim help convention marking
   the start of a preformatted region. This only applies when the preceding block is a

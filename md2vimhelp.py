@@ -8,6 +8,18 @@ WRAP_WIDTH = 90
 DIVIDER = "-" * WRAP_WIDTH
 HEADER_RE = re.compile(r"^## (.*)$")
 FENCE_RE = re.compile(r"^```")
+BOLD_RE = re.compile(r"\*\*(.+?)\*\*")
+BULLET_RE = re.compile(r"^(-\s+|\d+\.\s+)")
+
+
+def strip_bold(line: str) -> str:
+    return BOLD_RE.sub(r"\1", line)
+
+
+def wrap_line(line: str) -> list[str]:
+    bullet_match = BULLET_RE.match(line)
+    indent = " " * len(bullet_match.group(1)) if bullet_match else ""
+    return textwrap.fill(line, width=WRAP_WIDTH, subsequent_indent=indent).splitlines()
 
 
 def parse_blocks(text: str) -> list[tuple[str, list[str]]]:
@@ -34,14 +46,14 @@ def parse_blocks(text: str) -> list[tuple[str, list[str]]]:
         header_match = HEADER_RE.match(line)
         if header_match:
             flush_paragraph()
-            blocks.append(("header", [header_match.group(1)]))
+            blocks.append(("header", [strip_bold(header_match.group(1))]))
         elif FENCE_RE.match(line):
             flush_paragraph()
             in_code = True
         elif line.strip() == "":
             flush_paragraph()
         else:
-            paragraph.append(line)
+            paragraph.append(strip_bold(line))
 
     flush_paragraph()
     return blocks
@@ -55,7 +67,7 @@ def render(blocks: list[tuple[str, list[str]]]) -> str:
         elif kind == "code":
             out = [f"    {line}" if line.strip() else "" for line in lines]
         else:
-            out = textwrap.fill(" ".join(lines), width=WRAP_WIDTH).splitlines()
+            out = [wrapped for line in lines for wrapped in wrap_line(line)]
 
         next_is_code = i + 1 < len(blocks) and blocks[i + 1][0] == "code"
         if next_is_code and kind != "code" and out:
