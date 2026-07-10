@@ -4,14 +4,24 @@ Convert a Markdown file into Vim's `:help` text format.
 
 ## Usage
 
+Install it as a `md2vimhelp` command with [uv](https://docs.astral.sh/uv/):
+
+```sh
+uv tool install .
+md2vimhelp input.md output.txt
+```
+
+Or run the script directly without installing:
+
 ```sh
 python3 md2vimhelp.py input.md output.txt
 ```
 
-Or omit the output path and it's derived by swapping the `.md` extension for `.txt`:
+Either way, you can omit the output path and it's derived by swapping the `.md`
+extension for `.txt`:
 
 ```sh
-python3 md2vimhelp.py input.md   # writes input.txt
+md2vimhelp input.md   # writes input.txt
 ```
 
 If the derived output file already exists, you'll be asked to confirm before it's

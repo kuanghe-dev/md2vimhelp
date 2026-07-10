@@ -68,6 +68,12 @@ Dependencies are managed with [uv](https://docs.astral.sh/uv/) (`pyproject.toml`
 `uv.lock`); `pytest` is the sole dev dependency. Run `uv sync` once to create `.venv`,
 then `uv run pytest` for the suite — no manual venv activation needed.
 
+`pyproject.toml` declares a `[project.scripts]` entry point (`md2vimhelp =
+"md2vimhelp:main"`) built via `hatchling`, which auto-detects `md2vimhelp.py` as the
+project's module since it matches the normalized project name. This is what lets `uv
+tool install .` expose a `md2vimhelp` command — the source file itself stays
+`md2vimhelp.py`; only the installed command is renamed.
+
 `tests/test_md2vimhelp.py` is parametrized over the `example{1,2,3}.md` /
 `example{1,2,3}.txt` pairs in `example/`: each test runs `md2vimhelp.py` as a subprocess
 against the `.md` file and asserts the output matches the `.txt` fixture byte-for-byte.
