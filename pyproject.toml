@@ -5,6 +5,13 @@ description = "Markdown to Vim help file converter"
 requires-python = ">=3.13"
 dependencies = []
 
+[project.scripts]
+md2vimhelp = "md2vimhelp:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
 [dependency-groups]
 dev = [
     "pytest>=9.1.1",
